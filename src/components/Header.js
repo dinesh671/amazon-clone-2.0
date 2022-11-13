@@ -1,13 +1,21 @@
 import React from 'react'
 import Image from 'next/image'
 import {  AiOutlineShoppingCart } from "react-icons/ai";
-import { BiMenu,BiSearch } from "react-icons/bi";
+import { BiMenu, BiSearch } from "react-icons/bi";
+import { signIn, signOut, useSession } from "next-auth/react"
+import { useRouter } from "next/router";
+
 function Header() {
+     const { data: session } = useSession()
+     const router = useRouter();
+
   return (
        <header>
             <div className='flex items-center h-16 bg-amazon_blue p-1 flex-grow py-2'>
                  <div className=''>
-                 <Image
+                      
+                      <Image
+                           onClick={()=>router.push('/')}
                       src='https://links.papareact.com/f90'
                       alt='logo'
                       width={150}
@@ -21,15 +29,16 @@ function Header() {
                       <BiSearch className="h-12 p-3 w-14 " />
                  </div>
                  <div className=' text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap'>
-                      <div className=' link'>
-                           <p className=' font-extrabold md:text-sm '>Hello Dinesh</p>
+                      <div onClick={!session ? signIn : signOut} className=' link'>
+                           <p className=' font-extrabold md:text-sm '>
+                                { session ? `Hello, ${session.user.name}`: "Sign In" } </p>
                            <p>Account & list</p>
                     </div>
                       <div className=' link'>
                            <p className=' font-extrabold md:text-sm '>Returns</p>
                            <p>& Orders</p>
                     </div>
-                      <div className=' link relative flex items-center '>
+                      <div onClick={()=>router.push('/checkout')} className=' link relative flex items-center '>
                            <span className='absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full font-bold hover:border-yellow-500 text-yellow-800'>2</span>
                            <AiOutlineShoppingCart className=' h-10 w-10 ' />
                            <p className=' font-extrabold md:text-sm hidden md:inline mt-2'>Basket</p>
