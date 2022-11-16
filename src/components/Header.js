@@ -4,10 +4,13 @@ import {  AiOutlineShoppingCart } from "react-icons/ai";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import { signIn, signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/router";
+import { useSelector } from 'react-redux';
+import { selectItems } from '../slices/basketSlice';
 
 function Header() {
      const { data: session } = useSession()
      const router = useRouter();
+     const items = useSelector(selectItems)
 
   return (
        <header>
@@ -39,7 +42,7 @@ function Header() {
                            <p>& Orders</p>
                     </div>
                       <div onClick={()=>router.push('/checkout')} className=' link relative flex items-center '>
-                           <span className='absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full font-bold hover:border-yellow-500 text-yellow-800'>2</span>
+                           <span className='absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full font-bold hover:border-yellow-500 text-yellow-800'>{ items.length}</span>
                            <AiOutlineShoppingCart className=' h-10 w-10 ' />
                            <p className=' font-extrabold md:text-sm hidden md:inline mt-2'>Basket</p>
                     </div>
